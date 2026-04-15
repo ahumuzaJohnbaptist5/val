@@ -1,0 +1,166 @@
+================================================================================
+DIALOGFLOW INTENTS SETUP GUIDE
+Val Executive Restaurant Chatbot
+Project ID: gdg-session-492711
+================================================================================
+
+INTENT 1: menu.inquire
+────────────────────────────────────────────────────────────────────────────
+Display Name: menu.inquire
+
+TRAINING PHRASES:
+  - What's on the menu?
+  - What food do you serve?
+  - Show me the menu
+  - What do you have?
+  - What can I eat here?
+
+RESPONSE:
+We serve authentic Italian cuisine including:
+- Appetizers: Bruschetta al Pomodoro, Burrata & Prosciutto
+- Pasta: Spaghetti alla Carbonara, Pappardelle al Ragù, Gnocchi al Gorgonzola
+- Mains: Branzino al Forno, Osso Buco alla Milanese
+- Desserts: Tiramisù Tradizionale, Panna Cotta ai Frutti di Bosco
+- Wine & Beverages: Italian wine selection
+
+Would you like to know prices for any specific dish?
+
+================================================================================
+
+INTENT 2: menu.price
+────────────────────────────────────────────────────────────────────────────
+Display Name: menu.price
+
+TRAINING PHRASES:
+  - How much is the Carbonara?
+  - What are your prices?
+  - How much does it cost?
+  - What's the price of the pasta?
+  - How expensive is the main course?
+
+RESPONSE:
+Our pricing:
+- Starters: $9-$14
+- Pasta dishes: $19-$22
+- Main courses: $34-$38
+- Desserts: $10-$11
+- Wine: From $10/glass
+
+For specific dishes:
+- Spaghetti alla Carbonara: $19
+- Pappardelle al Ragù: $22
+- Gnocchi al Gorgonzola: $21
+- Branzino al Forno: $34
+- Osso Buco alla Milanese: $38
+
+================================================================================
+
+INTENT 3: hours.inquire
+────────────────────────────────────────────────────────────────────────────
+Display Name: hours.inquire
+
+TRAINING PHRASES:
+  - What time do you open?
+  - Are you open on Sunday?
+  - What are your hours?
+  - When do you close?
+  - Are you open today?
+
+RESPONSE:
+We are open:
+- Monday: CLOSED
+- Tuesday – Thursday: 12:00 PM – 10:00 PM
+- Friday – Saturday: 12:00 PM – 11:30 PM
+- Sunday: 11:00 AM – 9:00 PM
+
+Last kitchen orders are taken 45 minutes before closing.
+We recommend making reservations for Friday and Saturday evenings.
+
+================================================================================
+
+INTENT 4: location.inquire
+────────────────────────────────────────────────────────────────────────────
+Display Name: location.inquire
+
+TRAINING PHRASES:
+  - Where are you located?
+  - What's your address?
+  - How do I find you?
+  - What's your location?
+  - Where can I find the restaurant?
+
+RESPONSE:
+We are located at:
+📍 24 Via Roma Street
+Downtown District, NY 10001
+
+Phone: +1 (212) 555-0192
+Email: info@valexecutiverestaurant.com
+
+Parking: Validated parking available at the Broadway garage, 2 blocks east.
+
+================================================================================
+
+INTENT 5: reservation.make
+────────────────────────────────────────────────────────────────────────────
+Display Name: reservation.make
+
+TRAINING PHRASES:
+  - I want to book a table
+  - Can I make a reservation?
+  - I'd like to reserve a table
+  - How do I book?
+  - Can you hold a table for me?
+
+RESPONSE:
+You can make a reservation:
+
+1. Online: Visit our website and use the reservation form
+2. Phone: Call us at +1 (212) 555-0192
+3. Email: info@valexecutiverestaurant.com
+
+We accept reservations for groups up to 40 guests.
+Private dining available for special events.
+
+We strongly recommend reservations for Friday and Saturday evenings.
+
+================================================================================
+
+INTENT 6: contact.inquire
+────────────────────────────────────────────────────────────────────────────
+Display Name: contact.inquire
+
+TRAINING PHRASES:
+  - What's your phone number?
+  - How do I contact you?
+  - What's your email?
+  - How can I reach you?
+  - Give me your contact info
+
+RESPONSE:
+You can reach us:
+
+📞 Phone: +1 (212) 555-0192
+📧 Email: info@valexecutiverestaurant.com
+📍 Address: 24 Via Roma Street, Downtown District, NY 10001
+
+We're here to help with reservations, questions, or special requests!
+
+================================================================================
+
+SETUP INSTRUCTIONS:
+────────────────────────────────────────────────────────────────────────────
+
+1. Go to https://dialogflow.cloud.google.com
+2. Select project: gdg-session-492711
+3. For EACH intent above:
+   - Click "Create Intent"
+   - Enter the Display Name
+   - Add all Training Phrases (one per line)
+   - In Responses section, paste the Response text
+   - Click "Save"
+4. After creating all intents, click "Build" and then "Publish"
+
+Your chatbot will then respond to customer questions automatically!
+
+================================================================================
