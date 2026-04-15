@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Val Executive Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fdf6ec;
+      --dark: #1a1208;
+      --gold: #c9a84c;
+      --rust: #b74b2a;
+      --muted: #6b5c45;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Lato', sans-serif;
+      color: var(--dark);
+      background: var(--cream);
+      scroll-behavior: smooth;
+    }
+
+    h1, h2, h3 { font-family: 'Playfair Display', serif; margin-top: 0; }
+
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(26, 18, 8, 0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.35);
+    }
+
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 0;
+      gap: 1rem;
+    }
+
+    .logo {
+      color: var(--cream);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .hero {
+      min-height: 100vh;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+      padding: 5rem 1rem;
+    }
+
+    .hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); margin-bottom: 0.8rem; }
+    .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 1.4rem; }
+
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      text-decoration: none;
+      padding: 0.8rem 1.3rem;
+      border-radius: 0.35rem;
+      font-weight: 700;
+    }
+
+    section { padding: 4.5rem 0; }
+
+    .about-grid,
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .about-grid img,
+    .menu-card img {
+      width: 100%;
+      display: block;
+      border-radius: 0.6rem;
+      object-fit: cover;
+    }
+
+    .facts {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      color: var(--muted);
+    }
+
+    .facts li { margin-bottom: 0.4rem; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .menu-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 0.8rem;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .menu-content { padding: 0.9rem; }
+    .tag {
+      font-size: 0.78rem;
+      color: #fff;
+      background: var(--rust);
+      display: inline-block;
+      padding: 0.18rem 0.5rem;
+      border-radius: 999px;
+      margin-bottom: 0.5rem;
+    }
+
+    .price { color: var(--rust); font-weight: 700; }
+
+    #hours {
+      background: var(--dark);
+      color: var(--cream);
+    }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; }
+    th, td { border-bottom: 1px solid rgba(255, 255, 255, 0.2); text-align: left; padding: 0.6rem 0.3rem; }
+    td:last-child, th:last-child { text-align: right; }
+
+    .muted-note { color: #dbcfae; margin-top: 1rem; font-size: 0.95rem; }
+
+    form {
+      background: #fff;
+      border-radius: 0.8rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      padding: 1rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    label { display: block; font-weight: 700; margin-bottom: 0.35rem; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 0.35rem;
+      padding: 0.65rem;
+      font: inherit;
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+    .full { grid-column: 1 / -1; }
+
+    footer {
+      text-align: center;
+      padding: 1.3rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 800px) {
+      .about-grid,
+      .info-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      td:last-child, th:last-child { text-align: left; }
+      .nav-wrap { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-wrap">
+      <a class="logo" href="#top">Val Executive Restaurant</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#hours">Hours</a></li>
+        <li><a href="#reserve">Reserve</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header id="top" class="hero">
+    <div>
+      <h1>Val Executive Restaurant</h1>
+      <p>Authentic Italian dining in Downtown District, crafted with seasonal ingredients and timeless hospitality.</p>
+      <a class="btn" href="#menu">Explore Menu</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container about-grid">
+      <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1200&q=80" alt="Chef preparing Italian cuisine" />
+      <div>
+        <h2>Our Story</h2>
+        <p>Since 2005, Val Executive Restaurant has celebrated the culinary traditions of Italy with modern elegance. Founded by Chef Marco Rossi, our kitchen serves handcrafted dishes inspired by regional classics and premium local produce.</p>
+        <ul class="facts">
+          <li><strong>Founded:</strong> 2005</li>
+          <li><strong>Founder:</strong> Chef Marco Rossi</li>
+          <li><strong>Cuisine:</strong> Authentic Italian</li>
+          <li><strong>Private Dining:</strong> Up to 40 guests</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <h2>Featured Menu</h2>
+      <div class="menu-grid">
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1522758971460-1d21eed7dc6d?auto=format&fit=crop&w=900&q=80" alt="Bruschetta al Pomodoro" />
+          <div class="menu-content"><span class="tag">Starter</span><h3>Bruschetta al Pomodoro</h3><p>Toasted sourdough with Roma tomatoes, basil, garlic, olive oil.</p><p class="price">$9</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1633321702518-7feccafb94d5?auto=format&fit=crop&w=900&q=80" alt="Burrata and Prosciutto" />
+          <div class="menu-content"><span class="tag">Starter</span><h3>Burrata &amp; Prosciutto</h3><p>Creamy burrata with Prosciutto di Parma, arugula, aged balsamic.</p><p class="price">$14</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1608756687911-aa1599ab0387?auto=format&fit=crop&w=900&q=80" alt="Spaghetti alla Carbonara" />
+          <div class="menu-content"><span class="tag">Pasta</span><h3>Spaghetti alla Carbonara</h3><p>Guanciale, eggs, Pecorino Romano, black pepper. No cream.</p><p class="price">$19</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=900&q=80" alt="Pappardelle al Ragu" />
+          <div class="menu-content"><span class="tag">Pasta</span><h3>Pappardelle al Ragu</h3><p>Slow-cooked beef &amp; pork ragu in San Marzano tomatoes.</p><p class="price">$22</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1516100882582-96c3a05fe590?auto=format&fit=crop&w=900&q=80" alt="Gnocchi al Gorgonzola" />
+          <div class="menu-content"><span class="tag">Pasta</span><h3>Gnocchi al Gorgonzola</h3><p>Hand-rolled potato gnocchi in Gorgonzola walnut sauce.</p><p class="price">$21</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=80" alt="Branzino al Forno" />
+          <div class="menu-content"><span class="tag">Main</span><h3>Branzino al Forno</h3><p>Whole roasted sea bass with lemon, capers, cherry tomatoes.</p><p class="price">$34</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="Osso Buco alla Milanese" />
+          <div class="menu-content"><span class="tag">Main</span><h3>Osso Buco alla Milanese</h3><p>Braised veal shanks with gremolata and saffron risotto.</p><p class="price">$38</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=80" alt="Tiramisu Tradizionale" />
+          <div class="menu-content"><span class="tag">Dessert</span><h3>Tiramisu Tradizionale</h3><p>Savoiardi biscuits, espresso, mascarpone, cocoa powder.</p><p class="price">$11</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=900&q=80" alt="Panna Cotta" />
+          <div class="menu-content"><span class="tag">Dessert</span><h3>Panna Cotta</h3><p>Vanilla panna cotta with warm mixed berry coulis and mint.</p><p class="price">$10</p></div>
+        </article>
+        <article class="menu-card">
+          <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=900&q=80" alt="Wine and Beverages" />
+          <div class="menu-content"><span class="tag">Beverages</span><h3>Wine &amp; Beverages</h3><p>Curated Italian wines: Barolo, Chianti, Pinot Grigio.</p><p class="price">From $10/glass</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="hours">
+    <div class="container info-grid">
+      <div>
+        <h2>Hours</h2>
+        <table aria-label="Restaurant opening hours">
+          <thead>
+            <tr><th>Day</th><th>Hours</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Monday</td><td>Closed</td></tr>
+            <tr><td>Tuesday – Thursday</td><td>12:00 PM – 10:00 PM</td></tr>
+            <tr><td>Friday – Saturday</td><td>12:00 PM – 11:30 PM</td></tr>
+            <tr><td>Sunday</td><td>11:00 AM – 9:00 PM</td></tr>
+          </tbody>
+        </table>
+        <p class="muted-note">Last kitchen orders are taken 45 minutes before closing. Reservations are strongly recommended for Friday and Saturday evenings.</p>
+      </div>
+      <div>
+        <h2>Location &amp; Contact</h2>
+        <p><strong>Address:</strong><br />24 Via Roma Street, Downtown District, NY 10001</p>
+        <p><strong>Phone:</strong> +1 (212) 555-0192</p>
+        <p><strong>Email:</strong> info@valexecutiverestaurant.com</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reserve">
+    <div class="container">
+      <h2>Reserve a Table</h2>
+      <form action="#" method="post">
+        <div class="form-grid">
+          <div>
+            <label for="fullName">Full Name</label>
+            <input id="fullName" name="fullName" type="text" required />
+          </div>
+          <div>
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div>
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" required />
+          </div>
+          <div>
+            <label for="date">Date</label>
+            <input id="date" name="date" type="date" required />
+          </div>
+          <div>
+            <label for="time">Preferred Time</label>
+            <select id="time" name="time" required>
+              <option value="">Select time</option>
+              <option>12:00 PM</option>
+              <option>1:30 PM</option>
+              <option>3:00 PM</option>
+              <option>6:00 PM</option>
+              <option>7:30 PM</option>
+              <option>9:00 PM</option>
+            </select>
+          </div>
+          <div>
+            <label for="guests">Number of Guests</label>
+            <select id="guests" name="guests" required>
+              <option value="">Select guests</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7+</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="requests">Special Requests</label>
+            <textarea id="requests" name="requests" placeholder="Tell us about dietary requirements, celebrations, or seating preferences."></textarea>
+          </div>
+          <div class="full">
+            <button class="btn" type="submit">Submit Reservation Request</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Val Executive Restaurant. All rights reserved.
+  </footer>
+
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger
+    intent="WELCOME"
+    chat-title="ValExecutiveBot"
+    agent-id="YOUR_DIALOGFLOW_AGENT_ID"
+    language-code="en"
+  ></df-messenger>
+</body>
+</html>
