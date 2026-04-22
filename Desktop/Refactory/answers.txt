@@ -1,0 +1,76 @@
+-------setup.py code-------------
+
+import sqlite3
+
+DB_NAME = "nyondo_stock.db"
+
+products = [
+    ("Cement (bag)", "Portland cement 50kg bag", 35000),
+    ("Iron Sheet 3m", "Gauge 30 roofing sheet 3m", 110000),
+    ("Paint 5L", "Exterior wall paint white 5L", 60000),
+    ("Nails 1kg", "Common wire nails 1kg pack", 12000),
+    ("Timber 2x4", "Pine timber plank 2x4 per metre", 25000),
+]
+
+def main():
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+
+    # 1) Create table
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            price REAL NOT NULL
+        );
+    """)
+
+    # 2) Insert all products using ONE INSERT statement (executemany runs the same INSERT once per row)
+    cur.executemany(
+        "INSERT INTO products (name, description, price) VALUES (?, ?, ?);",
+        products
+    )
+
+    conn.commit()
+    conn.close()
+    print(f"Database '{DB_NAME}' created and products inserted successfully.")
+
+if __name__ == "__main__":
+    main()
+
+    ---------The CREATE TABLE SQL statement------------
+      cur.execute("""
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT,
+        price REAL NOT NULL
+    );
+    """)
+
+    ------------The INSERT statement--------
+
+      cur.execute("""
+    INSERT INTO products (name, description, price) VALUES
+        ('Cement (bag)', 'Portland cement 50kg bag', 35000),
+        ('Iron Sheet 3m', 'Gauge 30 roofing sheet 3m', 110000),
+        ('Paint 5L', 'Exterior wall paint white 5L', 60000),
+        ('Nails 1kg', 'Common wire nails 1kg pack', 12000),
+        ('Timber 2x4', 'Pine timber plank 2x4 per metre', 25000);
+    """)
+
+    conn.commit()
+    conn.close()
+    print(f"Done. Created '{DB_NAME}', table 'products', and inserted 5 products.")
+
+if __name__ == "__main__":
+    main()
+
+   ---- The output from SELECT * showing all 5 products-----
+
+   (1, 'Cement (bag)', 'Portland cement 50kg bag', 35000.0)
+(2, 'Iron Sheet 3m', 'Gauge 30 roofing sheet 3m', 110000.0)
+(3, 'Paint 5L', 'Exterior wall paint white 5L', 60000.0)
+(4, 'Nails 1kg', 'Common wire nails 1kg pack', 12000.0)
+(5, 'Timber 2x4', 'Pine timber plank 2x4 per metre', 25000.0)
