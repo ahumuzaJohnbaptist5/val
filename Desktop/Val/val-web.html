@@ -735,6 +735,15 @@
       #chat-window { width: calc(100vw - 2rem); right: 1rem; bottom: 5rem; }
     }
   </style>
+  <!-- Dialogflow Messenger Integration -->
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger
+    intent="WELCOME"
+    chat-icon="https://cdn-icons-png.flaticon.com/512/1/1255.png"
+    chat-title="Val Assistant"
+    agent-id="6f36ad69-5a87-4e80-aeef-4e2caa7adda8"
+    language-code="en"
+  ></df-messenger>
 </head>
 <body>
 
@@ -747,7 +756,7 @@
     <li><a href="#info">Hours</a></li>
     <li><a href="#info">Contact</a></li>
   </ul>
-  <button class="nav-reserve" onclick="document.getElementById('chat-window').classList.add('open')">
+  <button class="nav-reserve" onclick="openReservationChat()">
     Reserve a Table
   </button>
 </nav>
@@ -1027,7 +1036,7 @@
         <span>Validated parking at Broadway Garage,<br>2 blocks east.</span>
       </div>
       <div style="margin-top:1.2rem;">
-        <button class="btn-primary" onclick="document.getElementById('chat-window').classList.add('open')">
+        <button class="btn-primary" onclick="openReservationChat()">
           Reserve via Chat
         </button>
       </div>
@@ -1046,47 +1055,7 @@
   </div>
 </footer>
 
-<!-- ── CHATBOT ─────────────────────────────────── -->
-<button id="chat-bubble" onclick="toggleChat()" aria-label="Open chat assistant">
-  💬
-  <span class="badge">1</span>
-</button>
-
-<div id="chat-window">
-  <div class="chat-header">
-    <div class="chat-header-info">
-      <div class="chat-avatar">🍽️</div>
-      <div>
-        <div class="chat-header-name">Val Restaurant Assistant</div>
-        <div class="chat-header-status">● Online — ask me anything</div>
-      </div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
-  </div>
-
-  <div class="chat-messages" id="chat-messages">
-    <!-- Welcome message -->
-    <div class="msg bot">
-      <div class="msg-bubble">Welcome to Val Executive Restaurant! 🍽️ I'm here to help with reservations, menu questions, hours, and anything else you'd like to know. How can I assist you today?</div>
-      <div class="msg-time">Just now</div>
-    </div>
-  </div>
-
-  <!-- Quick replies -->
-  <div class="quick-replies" id="quick-replies">
-    <button class="qr-chip" onclick="sendQuick('What are your opening hours?')">🕐 Hours</button>
-    <button class="qr-chip" onclick="sendQuick('Where are you located?')">📍 Location</button>
-    <button class="qr-chip" onclick="sendQuick('How do I make a reservation?')">📅 Reservations</button>
-    <button class="qr-chip" onclick="sendQuick('Tell me about the menu')">🍴 Menu</button>
-    <button class="qr-chip" onclick="sendQuick('Do you have vegetarian options?')">🥗 Vegetarian</button>
-    <button class="qr-chip" onclick="sendQuick('Is there parking available?')">🅿️ Parking</button>
-  </div>
-
-  <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Ask about menu, hours, reservations…" onkeydown="handleKey(event)" />
-    <button id="chat-send" onclick="sendMessage()">Send</button>
-  </div>
-</div>
+<!-- Dialogflow Messenger will appear here as a floating widget -->
 
 <script>
   /* ── NAV SCROLL ── */
@@ -1103,148 +1072,35 @@
     btn.classList.add('active');
   }
 
-  /* ── CHATBOT TOGGLE ── */
-  let chatOpen = false;
-  function toggleChat() {
-    chatOpen = !chatOpen;
-    document.getElementById('chat-window').classList.toggle('open', chatOpen);
-    document.querySelector('#chat-bubble .badge').style.display = 'none';
-    if (chatOpen) document.getElementById('chat-input').focus();
-  }
-
-  /* ── CHAT STATE ── */
-  const conversationHistory = [];
-  let isTyping = false;
-
-  const SYSTEM_PROMPT = `You are the friendly and knowledgeable assistant for Val Executive Restaurant, a fine-dining establishment in Downtown New York. Your role is to help customers with questions and provide an exceptional guest experience.
-
-RESTAURANT INFORMATION:
-- Name: Val Executive Restaurant
-- Founded: 2022 by the Valence and family
-- Tagline: "Family recipes passed down for generations, made with the finest imported ingredients. Every plate tells a story."
-- Address: Ramukundi-Nyakaumbu street, Kabale District, Uganda
-- Phone: +256 775523720
-- Email: ayebazibwevalence@gmail.com
-- Rating: 4.9 stars
-
-HOURS:
-- Monday–Tuesday: open
-- Wednesday–Friday: 12pm – 10pm
-- Saturday: 11am – 11pm
-- Sunday: 11am – 9pm
-- Happy Hour: Wednesday–Friday, 4pm – 6pm
-- Brunch: Saturday–Sunday, 11am – 2pm
-
-MENU HIGHLIGHTS:
-Starters: Burrata & Heirloom Tomato ($18), Foie Gras Torchon ($28), Lobster Bisque ($22), Tuna Tartare ($24), Truffle Arancini ($16, vegetarian), Oysters on the Half Shell ($32)
-Mains: Wagyu Filet Mignon ($72), Tagliatelle al Ragù ($38, family recipe), Pan-Roasted Halibut ($48), Duck Confit ($44), Mushroom Risotto ($34, vegetarian), Rack of Lamb ($58)
-Desserts: Tiramisu Classico ($14, family recipe), Chocolate Fondant ($16), Panna Cotta al Limone ($12, gluten-free), Cheese & Honey Board ($22)
-Drinks: Val Negroni ($18, house cocktail), Champagne by the Glass - Veuve Clicquot ($24), Barolo DOCG 2018 ($26), Mocktail Garden ($12)
-
-DIETARY OPTIONS:
-- Vegetarian: Truffle Arancini, Mushroom Risotto, Panna Cotta al Limone, Mocktail Garden
-- Gluten-Free: Panna Cotta al Limone (ask staff for other options)
-- The kitchen can accommodate most dietary restrictions with advance notice
-
-RESERVATIONS:
-- Highly recommended for dinner service
-- Call +256775523720 or email ayebazibwevalence@gmail.com
-- Walk-ins welcome based on availability
-
-DRESS CODE: Smart casual to formal. Business attire or elegant evening wear recommended.
-
-PRIVATE DINING: Available for groups of 10–50. Contact us for corporate events, celebrations, and private functions.
-
-Be warm, elegant, and helpful. Keep responses concise (2–4 sentences usually). Use occasional relevant emojis tastefully. If asked to make a reservation, provide the phone number and email. Never make up information not listed above.`;
-
-  /* ── SEND MESSAGE ── */
-  async function sendMessage() {
-    const input = document.getElementById('chat-input');
-    const text = input.value.trim();
-    if (!text || isTyping) return;
-    input.value = '';
-    appendMessage('user', text);
-    hideQuickReplies();
-    await getBotResponse(text);
-  }
-
-  function sendQuick(text) {
-    document.getElementById('chat-input').value = text;
-    sendMessage();
-  }
-
-  function handleKey(e) {
-    if (e.key === 'Enter') sendMessage();
-  }
-
-  function hideQuickReplies() {
-    document.getElementById('quick-replies').style.display = 'none';
-  }
-
-  function appendMessage(role, text) {
-    const msgs = document.getElementById('chat-messages');
-    const div = document.createElement('div');
-    div.className = 'msg ' + role;
-
-    const now = new Date();
-    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    div.innerHTML = `
-      <div class="msg-bubble">${text}</div>
-      <div class="msg-time">${time}</div>
-    `;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-
-    if (role === 'user') conversationHistory.push({ role: 'user', content: text });
-  }
-
-  function showTyping() {
-    const msgs = document.getElementById('chat-messages');
-    const div = document.createElement('div');
-    div.id = 'typing-indicator';
-    div.className = 'typing-indicator';
-    div.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-    document.getElementById('chat-send').disabled = true;
-    isTyping = true;
-  }
-
-  function hideTyping() {
-    const el = document.getElementById('typing-indicator');
-    if (el) el.remove();
-    document.getElementById('chat-send').disabled = false;
-    isTyping = false;
-  }
-
-  async function getBotResponse(userText) {
-    showTyping();
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT,
-          messages: conversationHistory
-        })
+  /* ── DIALOGFLOW MESSENGER ── */
+  window.addEventListener('load', () => {
+    // Dialogflow Messenger will automatically initialize with the df-messenger element
+    // The agent is configured to handle restaurant inquiries, reservations, menu questions, etc.
+    const dfMessenger = document.querySelector('df-messenger');
+    
+    // Customize the messenger if needed
+    if (dfMessenger) {
+      dfMessenger.addEventListener('df-messenger-loaded', () => {
+        console.log('Dialogflow messenger loaded successfully');
       });
+    }
+  });
 
-      const data = await response.json();
-      hideTyping();
-
-      const replyText = data.content?.[0]?.text || "I'm sorry, I didn't catch that. Could you please try again?";
-      conversationHistory.push({ role: 'assistant', content: replyText });
-      appendMessage('bot', replyText);
-
-    } catch (err) {
-      hideTyping();
-      appendMessage('bot', "Apologies, I'm having a moment. Please call us at +256 762 291654 or email ayebazibwevallence@gmail.com for immediate assistance.");
-      console.error('Chat error:', err);
+  /* ── RESERVE VIA CHAT ── */
+  function openReservationChat() {
+    const dfMessenger = document.querySelector('df-messenger');
+    if (dfMessenger) {
+      dfMessenger.setAttribute('intent', 'MAKE_RESERVATION');
+      // Programmatically open the messenger and set focus
+      const dfFrame = dfMessenger.shadowRoot?.querySelector('iframe');
+      if (dfFrame) {
+        dfMessenger.style.display = 'block';
+      }
     }
   }
+
+  // Make openReservationChat available globally for button onclick
+  window.openReservationChat = openReservationChat;
 </script>
 
 </body>
